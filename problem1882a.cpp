@@ -18,7 +18,7 @@ int solve() {
     int ans;
     int init=1;
         
-        for(int i=0;i<n;i++)
+    for(int i=0;i<n;i++)
     {
         if(init==a[i])
             init++;

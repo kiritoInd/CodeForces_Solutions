@@ -9,7 +9,8 @@ using namespace std;
 using namespace std;
 int main()
 {
-    int t;cin >> t;
+    int t;
+    cin >> t;
     while(t--){
         int n,s,e,a,b;cin >> n >> s >> e;
         int A=s;
