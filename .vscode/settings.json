@@ -64,6 +64,13 @@
         "thread": "cpp",
         "xlocbuf": "cpp",
         "xlocmes": "cpp",
-        "numeric": "cpp"
+        "numeric": "cpp",
+        "climits": "cpp",
+        "sstream": "cpp",
+        "unordered_map": "cpp",
+        "deque": "cpp",
+        "ranges": "cpp",
+        "span": "cpp",
+        "stack": "cpp"
     }
 }
