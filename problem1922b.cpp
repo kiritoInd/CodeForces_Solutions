@@ -14,22 +14,22 @@ typedef long long ll;
 ll solve() {
     ll n;
     cin >> n;
-    if(n < 3) return 0;
+    
     vector<ll> a(n);
-    vector<int> count(n + 1);
+    vector<int> cnt(n + 1);
 
     for (int i = 0; i < n; i++) {
         cin>>a[i];
-        count[a[i]]++;
+        cnt[a[i]]++;
     }
    
     ll result = 0;
     int smaller = 0;
-    for(int i = 0 ; i<= n; i++){
-        result += 1LL * count[i] * (count[i] - 1) * (count[i] - 2) / 6;
-        result += 1LL * count[i] * (count[i] - 1)/2 * smaller;
-        smaller += count[i];
-    }
+    for (int i = 0; i <= n; i++) {
+            result += 1LL * cnt[i] * (cnt[i] - 1) * (cnt[i] - 2) / 6;
+            result += 1LL * cnt[i] * (cnt[i] - 1) / 2 * smaller;
+            smaller += cnt[i];
+        }
 
     return result;
 }
