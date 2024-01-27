@@ -1,9 +1,9 @@
 Welcome to my Codeforces Solutions Repository! This repository contains my solutions to various problems from the Codeforces platform. While I strive to solve as many problems as I can, please note that I may not be able to solve every single one. Nonetheless, I am committed to sharing the solutions I have managed to complete.
 
 Repository Structure:
-Folders: Problems are organized into folders based on their difficulty levels or contest names.
-File Naming: Each file is named according to the problem code or a brief descriptive title.
-File Format: Solutions are primarily written in C++, Python, or other languages as appropriate.
+
+File Naming: Each file is named according to the problem  title.
+File Format: Solutions are primarily written in C++
 Usage:
 Feel free to explore the repository and examine the solutions. Here's how you can navigate through it:
 
