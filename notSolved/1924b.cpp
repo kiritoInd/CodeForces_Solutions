@@ -1,173 +1,150 @@
-#include <iostream>
-#include <algorithm>
-#include <vector>
-#include <unordered_map>
-#include <climits>
-#include <unordered_set>
-#include <set>
-#include <map>
-#include <string.h>
-
-typedef long long int ll;
+#include <bits/stdc++.h>
 
 using namespace std;
+#define  enl          '\n'
+#define  int          long long
+#define  sz(s)        (int)s.size()
+#define  all(v)       (v).begin(),(v).end()
 
-ll solve()
-{
-    ll n, m, q;
-    cin >> n >> m >> q;
-    vector<ll> hl(m);
-    unordered_map<ll, ll> mp;
-    for (int i = 0; i < m; i++)
-    {
-        cin >> hl[i];
+mt19937 rng (chrono::high_resolution_clock::now().time_since_epoch().count());
+template <typename A, typename B> ostream& operator<< (ostream &cout, pair<A, B> const &p) { return cout << "(" << p.first << ", " << p.second << ")"; }
+template <typename A, typename B> istream& operator>> (istream& cin, pair<A, B> &p) {cin >> p.first; return cin >> p.second;}
+template <typename A> ostream& operator<< (ostream &cout, vector<A> const &v) {cout << "["; for(int i = 0; i < v.size(); i++) {if (i) cout << ", "; cout << v[i];} return cout << "]";}
+template <typename A> istream& operator>> (istream& cin, vector<A> &x){for(int i = 0; i < x.size()-1; i++) cin >> x[i]; return cin >> x[x.size()-1];}
+template <typename A, typename B> A amax (A &a, B b){ if (b > a) a = b ; return a; }
+template <typename A, typename B> A amin (A &a, B b){ if (b < a) a = b ; return a; }
+
+const long long mod = 1e9+7;
+const long long inf = 1e18;
+
+class SegTree {
+public:
+    vector<int>tree;
+    vector<pair<int,int>>lazy;
+
+    SegTree(){}
+
+    SegTree(int n) {
+        tree.resize(4*n);
+        lazy.assign(4*n,{-1,-1});
+    } 
+
+    int term(int a,int d,int n) {
+        return a+(n-1)*d;
     }
-    for (int i = 0; i < m; i++)
-    {
-        ll t;
-        cin >> t;
-        mp[hl[i]] = t;
+
+    int sum(int a,int d,int n) {
+        return (2*a+(n-1)*d)*n/2;
     }
-    while (q--)
-    {
-        ll t;
-        cin >> t;
-        if (t == 2)
-        {
-            ll l, r;
-            cin >> l >> r;
 
-            ll result = 0;
-            vector<ll>::iterator low, high;
-            for (int i = l; i <= r; i++)
-            {
-                if (mp.find(i) != mp.end())
-                    continue;
-
-                low = lower_bound(hl.begin(), hl.end(), i);
-                high = upper_bound(hl.begin(), hl.end(), i);
-                if (low != hl.begin() && high != hl.end())
-                {
-                    result += (mp[hl[low - hl.begin() - 1]]) * (hl[(high - hl.begin())] - i);
-                }
-            }
-            cout << result << endl;
+    void update(int l,int r,int a,int d,int st,int en,int node) {
+        int mid = (st+en)/2;
+        if(st != en and lazy[node].first != -1) {
+            tree[2*node] = sum(lazy[node].first,lazy[node].second,mid-st+1);
+            tree[2*node+1] = sum(term(lazy[node].first,lazy[node].second,mid-st+2),lazy[node].second,en-mid);
+            lazy[2*node].first = lazy[node].first;
+            lazy[2*node+1].first = term(lazy[node].first,lazy[node].second,mid-st+2);
+            lazy[2*node].second = lazy[node].second;
+            lazy[2*node+1].second = lazy[node].second;
+            lazy[node] = {-1,-1};
         }
-        else
-        {
-            ll x, v;
-            cin >> x >> v;
-            hl.push_back(x);
-            sort(hl.begin(), hl.end());
-            mp[x] = v;
+
+        if(st > r or en < l) return;
+        if(st >= l and en <= r) {
+            tree[node] = sum(term(a,d,st-l+1),d,en-st+1);
+            lazy[node] = {term(a,d,st-l+1),d};
+            return;
         }
+
+        update(l,r,a,d,st,mid,2*node);
+        update(l,r,a,d,mid+1,en,2*node+1);
+        tree[node] = tree[2*node] + tree[2*node+1];
     }
 
+    int query(int l,int r,int st,int en,int node) {
+        int mid = (st+en)/2;
+        if(st != en and lazy[node].first != -1) {
+            tree[2*node] = sum(lazy[node].first,lazy[node].second,mid-st+1);
+            tree[2*node+1] = sum(term(lazy[node].first,lazy[node].second,mid-st+2),lazy[node].second,en-mid);
+            lazy[2*node].first = lazy[node].first;
+            lazy[2*node+1].first = term(lazy[node].first,lazy[node].second,mid-st+2);
+            lazy[2*node].second = lazy[node].second;
+            lazy[2*node+1].second = lazy[node].second;
+            lazy[node] = {-1,-1};
+        }
+
+        if(st > r or en < l) return 0;
+        if(st >= l and en <= r) return tree[node];
+        return query(l,r,st,mid,2*node)+query(l,r,mid+1,en,2*node+1);
+    }
+};
+
+void solve() {
+    int n,m,q;
+    cin>>n>>m>>q;
+    vector<int>x(m),v(m);
+    cin>>x>>v;
+
+    set<int>pos;
+
+    vector<int>val(n);
+
+    for(int i=0;i<m;i++) {
+        pos.insert(x[i]-1);
+        val[x[i]-1] = v[i];
+    }
+
+    SegTree T(n);
+
+    for(int i=1;i<n;i++) {
+        auto it = pos.lower_bound(i);
+        int right = *it;
+        it--;
+
+        int left = *it;
+
+        T.update(i,i,val[left]*(right-i),0,0,n-1,1);
+    }
+
+    while(q--) {
+        int t;
+        cin>>t;
+
+        if(t == 1) {
+            int x,v;
+            cin>>x>>v;
+            x--;
+
+            auto it = pos.lower_bound(x);
+
+            int right = *it;
+
+            it--;
+
+            int left = *it;
+
+            T.update(left+1,x,val[left]*(x-left-1),-val[left],0,n-1,1);
+
+            T.update(x+1,right,v*(right-x-1),-v,0,n-1,1);
+
+            val[x] = v;
+
+            pos.insert(x);
+        }
+        else {
+            int l,r;
+            cin>>l>>r;
+
+            cout<<T.query(l-1,r-1,0,n-1,1)<<enl;
+        }
+    }
+} 
+
+signed main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);cout.tie(nullptr);
+    int testcases = 1;
+    //cin>>testcases;
+    while(testcases--) solve();
     return 0;
 }
-
-int main()
-{
-    ios_base::sync_with_stdio(0);
-    cin.tie(NULL);
-    solve();
-}
-
-
-// //#include <bits/stdc++.h>
-// using namespace std;
-
-// const int NR = 3e5+10;
-// int x[NR], v[NR], len[NR << 2];
-// long long a[NR], b[NR];
-// long long suma[NR << 2], sumb[NR << 2], sumab[NR << 2];
-// long long marka[NR << 2], markb[NR << 2];
-
-// void Set(int p, long long c, long long d)
-// {
-// 	markb[p] += d;
-// 	sumb[p] += d * len[p];
-// 	sumab[p] += d * suma[p];
-// 	if (!c) return;
-// 	marka[p] = c;
-// 	suma[p] = c * len[p];
-// 	sumab[p] = c * sumb[p];
-// }
-
-// void merge(int p)
-// {
-// 	suma[p] = suma[p << 1] + suma[p << 1 | 1];
-// 	sumb[p] = sumb[p << 1] + sumb[p << 1 | 1];
-// 	sumab[p] = sumab[p << 1] + sumab[p << 1 | 1];
-// }
-
-// void pushdown(int p)
-// {
-// 	Set(p << 1, marka[p], markb[p]);
-// 	Set(p << 1 | 1, marka[p], markb[p]);
-// 	marka[p] = markb[p] = 0;
-// }
-
-// void build(int p, int pl, int pr)
-// {
-// 	len[p] = pr - pl + 1;
-// 	if (pl == pr) return Set(p, a[pl], b[pl]);
-// 	int mid = (pl + pr) >> 1;
-// 	build(p << 1, pl, mid);
-// 	build(p << 1 | 1, mid + 1, pr);
-// 	merge(p);
-// }
-
-// void update(int p, int pl, int pr, int l, int r, long long c, long long d)
-// {
-// 	if (l <= pl && pr <= r) return Set(p, c, d);
-// 	pushdown(p);
-// 	int mid = (pl + pr) >> 1;
-// 	if (l <= mid) update(p << 1, pl, mid, l, r, c, d);
-// 	if (r > mid) update(p << 1 | 1, mid + 1, pr, l, r, c, d);
-// 	merge(p);
-// }
-
-// long long query(int p, int pl, int pr, int l, int r)
-// {
-// 	if (l <= pl && pr <= r) return sumab[p];
-// 	pushdown(p);
-// 	int mid = (pl + pr) >> 1;
-// 	if (r <= mid) return query(p << 1, pl, mid, l, r);
-// 	if (l > mid) return query(p << 1 | 1, mid + 1, pr, l, r);
-// 	return query(p << 1, pl, mid, l, r) + query(p << 1 | 1, mid + 1, pr, l, r);
-// }
-
-// set<int> s1, s2;
-
-// int main()
-// {
-// 	ios::sync_with_stdio(0), cin.tie(0);
-// 	int n, m, q;
-// 	cin >> n >> m >> q;
-// 	for (int i = 1; i <= m; i++)
-// 		cin >> x[i], s1.insert(x[i]), s2.insert(-x[i]);
-// 	for (int i = 1; i <= m; i++)
-// 		cin >> v[i], a[x[i]] = v[i];
-// 	for (int i = n; i >= 1; i--)
-// 		if (a[i]) b[i] = 0;
-// 		else b[i] = b[i + 1] + 1;
-// 	for (int i = 1; i <= n; i++)
-// 		if (!a[i]) a[i] = a[i - 1];
-// 	build(1, 1, n);
-// 	while (q--)
-// 	{
-// 		int t, x, y;
-// 		cin >> t >> x >> y;
-// 		if (t == 1)
-// 		{
-// 			int l = -(*s2.upper_bound(-x));
-// 			int r = *s1.upper_bound(x);
-// 			s1.insert(x), s2.insert(-x);
-// 			update(1, 1, n, x, r - 1, y, 0);	
-// 			update(1, 1, n, l + 1, x, 0, x - r);
-// 		}
-// 		else cout << query(1, 1, n, x, y) << endl;
-// 	}
-// 	return 0;
-// }
