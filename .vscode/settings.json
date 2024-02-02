@@ -72,5 +72,6 @@
         "queue": "cpp",
         "map": "cpp",
         "climits": "cpp"
-    }
+    },
+    "C_Cpp.errorSquiggles": "enabled"
 }

@@ -1,4 +1,20 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <cmath>
+#include <algorithm>
+#include <vector>
+#include <map>
+#include <set>
+#include <queue>
+#include <stack>
+#include <bitset>
+#include <list>
+#include <numeric>
+#include <limits>
+#include <functional>
+#include <utility>
+
 
 using namespace std;
 #define  enl          '\n'
@@ -6,7 +22,6 @@ using namespace std;
 #define  sz(s)        (int)s.size()
 #define  all(v)       (v).begin(),(v).end()
 
-mt19937 rng (chrono::high_resolution_clock::now().time_since_epoch().count());
 template <typename A, typename B> ostream& operator<< (ostream &cout, pair<A, B> const &p) { return cout << "(" << p.first << ", " << p.second << ")"; }
 template <typename A, typename B> istream& operator>> (istream& cin, pair<A, B> &p) {cin >> p.first; return cin >> p.second;}
 template <typename A> ostream& operator<< (ostream &cout, vector<A> const &v) {cout << "["; for(int i = 0; i < v.size(); i++) {if (i) cout << ", "; cout << v[i];} return cout << "]";}
@@ -39,7 +54,7 @@ public:
 
     void update(int l,int r,int a,int d,int st,int en,int node) {
         int mid = (st+en)/2;
-        if(st != en and lazy[node].first != -1) {
+        if(st != en && lazy[node].first != -1) {
             tree[2*node] = sum(lazy[node].first,lazy[node].second,mid-st+1);
             tree[2*node+1] = sum(term(lazy[node].first,lazy[node].second,mid-st+2),lazy[node].second,en-mid);
             lazy[2*node].first = lazy[node].first;
@@ -49,8 +64,8 @@ public:
             lazy[node] = {-1,-1};
         }
 
-        if(st > r or en < l) return;
-        if(st >= l and en <= r) {
+        if(st > r || en < l) return;
+        if(st >= l && en <= r) {
             tree[node] = sum(term(a,d,st-l+1),d,en-st+1);
             lazy[node] = {term(a,d,st-l+1),d};
             return;
@@ -63,7 +78,7 @@ public:
 
     int query(int l,int r,int st,int en,int node) {
         int mid = (st+en)/2;
-        if(st != en and lazy[node].first != -1) {
+        if(st != en && lazy[node].first != -1) {
             tree[2*node] = sum(lazy[node].first,lazy[node].second,mid-st+1);
             tree[2*node+1] = sum(term(lazy[node].first,lazy[node].second,mid-st+2),lazy[node].second,en-mid);
             lazy[2*node].first = lazy[node].first;
@@ -73,8 +88,8 @@ public:
             lazy[node] = {-1,-1};
         }
 
-        if(st > r or en < l) return 0;
-        if(st >= l and en <= r) return tree[node];
+        if(st > r || en < l) return 0;
+        if(st >= l && en <= r) return tree[node];
         return query(l,r,st,mid,2*node)+query(l,r,mid+1,en,2*node+1);
     }
 };
