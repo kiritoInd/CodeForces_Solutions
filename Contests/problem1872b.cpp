@@ -32,6 +32,16 @@ const long long mod = 1e9+7;
 const long long inf = 1e18;
 
 int solve(){
+    int n;
+    cin>>n;
+    int result = 999;
+    while(n--){
+        int d,  s;
+        cin>>d>>s;
+        s--;
+        result = min(result , d + s/2);
+    }
+    return result;
     
 }
 
@@ -41,6 +51,7 @@ signed main() {
     int t;
     cin >> t;
     while (t--) {
-        solve();
+        cout<<solve()<<endl;
     }
 }
+
