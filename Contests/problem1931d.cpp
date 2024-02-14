@@ -14,7 +14,7 @@
 #include <limits>
 #include <functional>
 #include <utility>
-
+#include <unordered_map>
 
 using namespace std;
 #define  int          long long
@@ -35,19 +35,20 @@ void solve() {
     int n  , x , y;
 
     cin>>n>>x>>y;
-    vector<int> nums(n);
-    cin>>nums;
-  
-    int evencount = 0; 
-    int oddcount = 0;
-    for(int i = 0 ; i< n; i++){
-        if(nums[i] % 2 == 0){
-            evencount++;
-        }else{
-            oddcount++;
-        }
+
+    map<pair<int, int>, int > mp;
+    int res  = 0;
+    for (int i = 0; i < n; i++) {
+        int cur;
+        cin>>cur;
+        pair<int, int> pj = pair<int, int>{(-cur) % x, cur % y};
+        pj.first = (pj.first + x) % x;
+        if ( mp.count(pj))
+            res += mp[pj];
+        const pair<int, int> pi = pair<int, int>{cur % x, cur% y};
+        mp[pi]++;
     }
-    cout<<"count::"<<evencount<<" "<<oddcount<<endl;
+    cout<<res<<endl;
     return;
     
 }
