@@ -71,7 +71,10 @@
         "xutility": "cpp",
         "queue": "cpp",
         "map": "cpp",
-        "climits": "cpp"
+        "climits": "cpp",
+        "bitset": "cpp",
+        "functional": "cpp",
+        "numeric": "cpp"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }
