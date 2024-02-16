@@ -34,13 +34,11 @@ const long long inf = 1e18;
 void solve() {
     int n , k ;
     cin>>n>>k;
-
-    if(k <= n) {
-        cout << (k+1)/2 << "\n";
-    } else if(k <= 2*n) {
-        cout << n << "\n";
-    } else {
-        cout << n + (k - 2*n) << "\n";
+    
+    if(k == (4*n ) - 2){
+        cout<<(k / 2) + 1<<'\n';
+    }else {
+        cout<<(k + 1)/2<<'\n';
     }
     return ;
 }
