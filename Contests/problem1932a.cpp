@@ -15,6 +15,7 @@
 #include <functional>
 #include <utility>
 
+
 using namespace std;
 #define  int          long long
 #define  sz(s)        (int)s.size()
@@ -27,42 +28,25 @@ template <typename A> istream& operator>> (istream& cin, vector<A> &x){for(int i
 template <typename A, typename B> A amax (A &a, B b){ if (b > a) a = b ; return a; }
 template <typename A, typename B> A amin (A &a, B b){ if (b < a) a = b ; return a; }
 
-long long mod = 1000000007LL; // New modulo value
+const long long mod = 1e9+7;
 const long long inf = 1e18;
 
 int solve() {
-    int n , m;
-    cin>>n>>m;
-
-    vector<int> nums(n);
-    for(int i = 0 ; i < n;i++){
-        cin>>nums[i];
-        nums[i] = nums[i]% mod;
-    }
+    int n;
+    cin>>n;
+    int coin = 0;
+    bool isth = false;
     string s;
     cin>>s;
-
-    int prod = 1;
-    for(int i = 0; i < n;i++){
-        prod = (nums[i]* prod );
-    }
-   
-    vector<int> result;
-    int left = 0; int right = n -1;
-    for(int i= 0 ; i < n  ;i++){
-        result.push_back(prod % m);
-        if(s[i] == 'L'){
-            prod = prod / nums[left];
-            left++;
+    for(char c : s){
+        if(isth){
+            if(c == '*') break;
+            else isth = false;
         }
-        else if(s[i] == 'R'){
-            prod = prod / nums[right];
-            right--;
-        }
+        if(c == '@') coin ++;
+        else if( c == '*') isth = true;
     }
-    
-    for(int & x : result) cout<<x<<" ";
-    cout<<endl;
+    cout<<coin<<'\n';
     return 0;
 }
 
