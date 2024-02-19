@@ -35,35 +35,36 @@ int solve() {
     cin>>n>>m;
 
     vector<int> nums(n);
-    for(int i = 0 ; i < n;i++){
-        cin>>nums[i];
-        nums[i] = nums[i]% mod;
-    }
+    cin>>nums;
+
     string s;
     cin>>s;
-
-    int prod = 1;
-    for(int i = 0; i < n;i++){
-        prod = (nums[i]* prod );
-    }
-   
-    vector<int> result;
-    int left = 0; int right = n -1;
-    for(int i= 0 ; i < n  ;i++){
-        result.push_back(prod % m);
+    int left = 0;
+    int right = n - 1;
+    vector<int> v;
+    for(int i = 0 ; i< n ;i++){
         if(s[i] == 'L'){
-            prod = prod / nums[left];
+            v.push_back(nums[left]);
             left++;
-        }
-        else if(s[i] == 'R'){
-            prod = prod / nums[right];
+        }else{
+            v.push_back(nums[right]);
             right--;
         }
     }
-    
-    for(int & x : result) cout<<x<<" ";
-    cout<<endl;
+    reverse(v.begin(),v.end());
+    vector<int> res;
+    int mul =1;
+    for(int x :v){
+        mul *= x;
+        mul %= m;
+        res.push_back(mul);
+    }
+    reverse(res.begin() ,res.end());
+    for(int x : res) cout<<x<<" ";
+    cout<<"\n";
     return 0;
+
+   
 }
 
 signed main() {
