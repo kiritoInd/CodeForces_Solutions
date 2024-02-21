@@ -35,7 +35,6 @@ const long long inf = 1e18;
 void solve() {
     int k , x , a;
     cin>>k>>x>>a;
-
     int lost = 0 ;
     for(int i = 0 ; i<= x; i++){
         int loss = lost/(k - 1) + 1;
