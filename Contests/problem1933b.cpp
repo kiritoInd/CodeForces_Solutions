@@ -35,7 +35,22 @@ const long long mod = 1e9+7;
 const long long inf = 1e18;
 
 int solve() {
-
+    int n ;
+    cin>>n;
+    vector<int>nums(n);
+    cin>>nums;
+    int sums = accumulate(nums.begin() , nums.end(), 0);
+    if (sums % 3 == 2)
+        return 1;
+    else if (sums % 3 == 1){
+        for (int i : nums)
+        {
+            if ((sums - i) % 3 == 0)
+                return 1;
+        }
+        return 2;
+    }
+    return 0;
 }
 
 signed main() {
@@ -44,6 +59,6 @@ signed main() {
     int t;
     cin >> t;
     while (t--) {
-        solve();
+        cout<<solve()<<enl;
     }
 }
