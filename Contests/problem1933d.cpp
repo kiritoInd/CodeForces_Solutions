@@ -71,20 +71,20 @@ void solve()
 {
     int n;
     cin >> n;
-    vector<int> nums(n);
-    cin>>nums;
-    for(int i = 0 ; i< n; i++){
-    
-        for(int j = 0; j < n;j++){
-            if(i == j) continue;
-            if(nums[i] % nums[j] == 1 || nums[j] % nums[i] == 1){
-                cout<<"YES"<<enl;
-                return;
-            }
-            
-        }
+    vector<int> a(n);
+    cin>>a;
+    sort(a.begin() ,a.end());
+    if(a[0]!=a[1]){
+        cout<<"YES"<<enl;
+        return;
     }
-    cout<<"NO"<<enl;
+    bool fl=false;
+    for(auto x:a){
+        if(x%a[0])
+            fl=true;
+    }
+    if(fl) cout<<"YES"<<enl;
+    else cout<<"NO"<<enl;
     return;
 }
 
