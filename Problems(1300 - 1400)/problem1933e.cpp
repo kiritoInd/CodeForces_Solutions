@@ -14,12 +14,15 @@
 #include <limits>
 #include <functional>
 #include <utility>
+#include <unordered_map>
+#include <unordered_set>
 
 
 using namespace std;
 #define  int          long long
 #define  sz(s)        (int)s.size()
 #define  all(v)       (v).begin(),(v).end()
+#define  enl  	  '\n'
 
 template <typename A, typename B> ostream& operator<< (ostream &cout, pair<A, B> const &p) { return cout << '(' << p.first << ',' << p.second << ')'; }
 template <typename A, typename B> istream& operator>> (istream& cin, pair<A, B> &p) {cin >> p.first; return cin >> p.second;}
@@ -30,23 +33,41 @@ template <typename A, typename B> A amin (A &a, B b){ if (b < a) a = b ; return 
 
 const long long mod = 1e9+7;
 const long long inf = 1e18;
-bool check(int n) {
-    int ans = sqrt(n);
-    return (ans * ans == n);
-}
-int solve() {
-    int n; cin >> n;
-            vector<int>a(n);
-            for (int i = 0; i < n; i++) {
-                cin >> a[i];
+
+void solve() {
+    int n;
+    cin>>n;
+    vector<int> nums(n);
+    
+    cin>>nums;
+    vector<int> preff(n);
+    preff[0] = nums[0];
+    for(int i = 1; i< n;i++){
+        preff[i] = preff[i - 1]+ nums[i];
+    }
+    int q;
+    cin>>q;
+    while(q--){
+        int l , u ;
+        cin>>l>>u;
+        l--;
+        int x = u;
+        if(l > 0) x +=  preff[l - 1];
+        int lb =  lower_bound(preff.begin() , preff.end(), x) - preff.begin();
+        if(lb <= l){
+            cout<<l + 1<<" ";
+        }else if(lb >= n){
+            cout<<n<<" ";
+        }else{
+            if(abs(preff[lb]-x)<=abs(preff[lb-1]-x)){
+                cout<<lb+1<<" ";
             }
-            sort(all(a));
-            int sum = 0, mx = 0;
-            for (int i = 0; i < n; i++) {
-                sum += a[i];
-                
+            else{
+                cout<<lb<<" ";
             }
-            cout << (check(sum) ? "YES" : "NO") << endl;
+        }
+        cout<<enl;
+    }
 }
 
 signed main() {
