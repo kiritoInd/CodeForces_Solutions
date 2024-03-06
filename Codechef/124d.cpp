@@ -34,24 +34,30 @@ template <typename A, typename B> A amin (A &a, B b){ if (b < a) a = b ; return 
 const long long mod = 1e9+7;
 const long long inf = 1e18;
 
-int solve() {
-    int n;
-    cin>>n;
+int solve()
+{
     string s;
-    cin>>s;
-    string p = s;
-    reverse(s.begin() ,s.end());
-    if(p <= s){
-        cout<<p<<enl;
-        return 0;
+    cin >> s;
+    map<char, vector<int>> mp;
+    for(int i = 0; i < s.size() ; i++){
+        mp[s[i]].push_back(i);
     }
-  
-    s += p;
-    cout<<s<<enl;
+    int res = inf;
+    for(auto it : mp){
+        vector<int> t = it.second;
+        int m = t.size();
+        int l = 0;
+        int r = 0;
+        while(l < m){
+            while(r < m && t[r] - t[l] < m) r++;
+            res = min(res , m - (r - l));
+            l++;
+        }
+    }
+    cout<<res<<enl;
     return 0;
-
+  
 }
-
 signed main() {
     ios_base::sync_with_stdio(0);
     cin.tie(NULL);

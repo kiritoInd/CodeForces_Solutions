@@ -37,19 +37,15 @@ const long long inf = 1e18;
 int solve() {
     int n;
     cin>>n;
-    string s;
-    cin>>s;
-    string p = s;
-    reverse(s.begin() ,s.end());
-    if(p <= s){
-        cout<<p<<enl;
-        return 0;
+    vector<int> a;
+    cin>>a;
+    sort(a.begin(), a.end());
+    int maxm = 0;
+    for (int i = n - 1; i >= 0; --i) {
+        maxm = max(maxm, a[i] * (n - i));
     }
-  
-    s += p;
-    cout<<s<<enl;
+    cout << maxm << '\n';
     return 0;
-
 }
 
 signed main() {
