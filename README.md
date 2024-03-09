@@ -1,6 +1,6 @@
-# Codeforces Solutions Repository
+# Codeforces , Atcoder and Codechef Solutions Repository
 
-Welcome to my Codeforces Solutions Repository! This repository contains my solutions to various problems from the Codeforces platform. While I strive to solve as many problems as I can, please note that I may not be able to solve every single one. Nonetheless, I am committed to sharing the solutions I have managed to complete.
+ This repository contains my solutions to various problems from the Codeforces , Atcoder and Codechef platform. While I strive to solve as many problems as I can, please note that I may not be able to solve every single one. Nonetheless, I am committed to sharing the solutions I have managed to complete.
 
 ## Repository Structure:
 
