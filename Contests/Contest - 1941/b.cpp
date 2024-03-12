@@ -35,28 +35,29 @@ const long long mod = 1e9+7;
 const long long inf = 1e18;
 
 void solve() {
-     int n;
-        cin >> n;
+    int n;
+    cin >> n;
 
-        vector<int> a(n);
-        for(int i = 0; i < n; i++) {
-            cin >> a[i];
-        }
+    vector<int> a(n);
+    cin>>a;
 
-        bool possible = true;
-        for(int i = 1; i < n - 1; i++) {
-            int sum = a[i] + a[i  +1] + a[i - 1];
-            if(a[i] < sum) {
-                possible = false;
-                break;
-            }
+    for(int i = 2; i< n ;i++){
+        if(a[i - 2] > 0) {   
+            int x = a[i - 2];
+            a[i - 2] -= x;
+            a[i - 1] -= x*2;
+            a[i] -= x;
         }
-
-        if(possible) {
-            cout << "YES" << endl;
-        } else {
-            cout << "NO" << endl;
+    }
+    for(int x : a){
+        
+        if(x != 0) {
+            cout<<"NO"<<enl;
+            return ;
         }
+    }
+    cout<<"YES"<<enl;
+    return ;
 }
 
 signed main() {
