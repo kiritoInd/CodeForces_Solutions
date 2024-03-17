@@ -37,53 +37,25 @@ const long long inf = 1e18;
 int solve() {
     int n;
     cin>>n;
-    string s1, s2;
-    cin>>s1>>s2;
-    pair<int, int> start = {0 , 0};
-    pair<int, int> end = {1, n-1};
-
-    vector<vector<bool>> visited(2, vector<bool>(n, false));
-    queue<pair<int, int>> q;
-    q.push(start);
-    visited[start.first][start.second] = true;
-
-    while (!q.empty()) {
-        pair<int, int> cur = q.front();
-        q.pop();
-
-        if (cur == end) {
-            return true;
+    string s1;
+    cin>>s1;
+    string s2;
+    cin>>s2;
+    bool prev1 = true;
+    bool prev0 = true;
+    for(int i = 0 ; i< n;i++){
+        prev0 = prev1;
+        prev1 = false;
+        if(i % 2 == 0 && s2[i] == '>' || i %2 == 1 && s1[i] == '>'){
+            prev1 = true;
         }
-
-        int row = cur.first;
-        int col = cur.second;
-
-        // Check the cell on the right
-        if (col+1 < n && !visited[row][col+1] && ((row == 0 && s1[col+1] == '>') || (row == 1 && s2[col+1] == '>'))) {
-            q.push({row, col+1});
-            visited[row][col+1] = true;
-        }
-
-        // Check the cell on the left
-        if (col-1 >= 0 && !visited[row][col-1] && ((row == 0 && s1[col-1] == '<') || (row == 1 && s2[col-1] == '<'))) {
-            q.push({row, col-1});
-            visited[row][col-1] = true;
-        }
-
-        // Check the cell above
-        if (row-1 >= 0 && !visited[row-1][col] && ((row == 0 && s1[col] == '<') || (row == 1 && s2[col] == '>'))) {
-            q.push({row-1, col});
-            visited[row-1][col] = true;
-        }
-
-        // Check the cell below
-        if (row+1 < 2 && !visited[row+1][col] && ((row == 0 && s1[col] == '>') || (row == 1 && s2[col] == '<'))) {
-            q.push({row+1, col});
-            visited[row+1][col] = true;
+        if(!prev1 && !prev0){
+            cout<<"NO"<<enl;
+            return 0;
         }
     }
-
-    return false;
+    cout<<"YES"<<enl;
+    return 0;
 }
 
 signed main() {
@@ -92,11 +64,7 @@ signed main() {
     int t;
     cin >> t;
     while (t--) {
-        if (solve()) {
-            cout << "YES\n";
-        } else {
-            cout << "NO\n";
-        }
+        solve();        
     }
     return 0;
 }
