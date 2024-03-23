@@ -34,7 +34,7 @@ template <typename A, typename B> A amin (A &a, B b){ if (b < a) a = b ; return 
 const int mod = 1e9+7;
 const long long inf = 1e18;
 int kadanes(vector<int>& arr){
-        int sumSofar = INT_MIN;
+        int sumSofar = 0;
         int sumEndingHere = 0;
         for ( int i = 0 ; i< arr.size();i++)
         {
@@ -57,11 +57,7 @@ int solve() {
     int maxs = kadanes(nums);
     int sum = 0;
     for(int x : nums){
-        sum = (sum + x)%mod;
-    }
-    if(maxs < 0){
-        cout<<sum + mod<<enl;
-        return 0;
+        sum = (sum + x + mod);
     }
     while(k--){
         sum = (sum + maxs)%mod;
