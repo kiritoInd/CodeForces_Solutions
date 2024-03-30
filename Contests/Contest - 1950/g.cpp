@@ -64,60 +64,53 @@ void dfs(string node, unordered_map<string, vector<string>>& adj, unordered_map<
         }
     }
 }
-int solve() {
-    int n;
-    cin>>n;
-    
-    vector<vector<string>> v;
-    for(int i = 0 ; i<n;i++){
-        string s1 , s2;
-        cin>>s1>>s2;
-        v.push_back({s1 , s2});
-    }
-    bool flag = true;
-    unordered_map<string, vector<string>> adj;
-    unordered_map<string, int> count;
-    int p = 0;
-    
-    for(int i = 0 ; i< n;i++){
-        string s = v[i][0] + v[i][1];
-        if(adj.find(s) != adj.end()){
-            count[s]++;
-        }
-        adj[s];
+string s[20], t[20];
 
-    }
-    for(int i = 0 ; i< n;i++){
-        string s = v[i][0] + v[i][1];
-        for(int j = 0 ; j < n;j++){
-            if(v[i][0] == v[j][0] || v[i][1] == v[j][1]){
-                adj[s].push_back(v[j][0] + v[j][1]);
+// f is the DP table where f[mask][i] indicates whether there's a valid sequence ending with pair i under the mask.
+// g is an adjacency matrix where g[i][j] is 1 if pairs i and j share a string, otherwise 0.
+int f[70000][16], g[20][20];
+
+void solve() {
+    int n, ans = 0;
+    cin >> n; // Number of pairs
+
+    // Reading the pairs
+    for(int i = 0; i < n; ++i) cin >> s[i] >> t[i];
+
+    // Initializing the adjacency matrix g
+    for(int i = 0; i < n; ++i) {
+        for(int j = 0; j < n; ++j) {
+            if(s[i] == s[j] || t[i] == t[j]) {
+                g[i][j] = 1; // Pairs i and j share a string
+            } else {
+                g[i][j] = 0; // Pairs i and j do not share any string
             }
         }
     }
 
-  
-    int res = -inf;
-    for(auto& it : adj){
-        unordered_map<string, bool> visited;
-        for(auto x : adj){
-            visited[x.first] = false;
-        }
-        dfs(it.first, adj, visited);
-        int c = 0;
-        for(auto l : visited){
-            if(l.second == true){
-                if(count.find(l.first) != count.end()){
-                    c += count[l.first] + 1;
-                }else c++;
+    memset(f, 0, sizeof(f)); // Initializing the DP table to 0
+
+    // Base case: single pairs
+    for(int i = 0; i < n; ++i) f[1 << i][i] = 1;
+
+    // Iterating over all possible combinations of pairs
+    for(int mask = 0; mask < (1 << n); ++mask) {
+        for(int j = 0; j < n; ++j) {
+            // If pair j is in the current combination and f[mask][j] is true
+            if((mask & (1 << j)) && f[mask][j]) {
+                ans = max(ans, (int)__builtin_popcountll(mask)); // Update the answer with the size of the current combination
+
+                // Trying to extend the combination by adding a new pair k
+                for(int k = 0; k < n; ++k) {
+                    if(!(mask & (1 << k)) && g[j][k]) { // If pair k is not in the combination and pairs j and k share a string
+                        f[mask | (1 << k)][k] = 1; // Mark the new combination as valid
+                    }
+                }
             }
         }
-         res = max(res, c );
     }
-    if(res == inf){
-        res = (n - 1);
-    }
-    cout<<n - res <<enl;
+
+    cout << n - ans << '\n'; // Output the minimum number of pairs to remove
 }
 
 signed main() {
