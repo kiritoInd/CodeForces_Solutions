@@ -56,52 +56,30 @@ template <typename A, typename B> A amin (A &a, B b){ if (b < a) a = b ; return 
 const long long mod = 1e9+7;
 const long long inf = 1e18;
 
-
-
 int solve() {
-    int n , c, d;
-    cin>>n>>c>>d;
-    vector<int> nums(n*n);
-    cin>>nums;
-    map<int , int> st;
-    map<int , int> st1;
-
-    for(int x : nums){
-        st1[x]++;
+	int a;
+	cin>>a;
+    vector<int> nua(a);
+    vector<int> nub(a);
+    cin>>nua;
+    cin>>nub;
+    vector<int> nba(a);
+    vector<int> nbb(a);
+    cin>>nba;
+    cin>>nbb;
+    int xa = accumulate(nua.begin() , nua.end() , 0);
+    int xd = accumulate(nub.begin() , nub.end() , 0);
+    int ya = accumulate(nba.begin() , nba.end() , 0);
+    int yd = accumulate(nbb.begin() , nbb.end() , 0);
+    if(xa > ya && xd > yd){
+        cout<<"A"<<enl;
+    }else if(xa < ya && xd < yd){
+        cout<<"P"<<enl;
+    }else{
+        cout<<"DRAW"<<enl;
     }
-    vector<int> dn;
-    int sqv = inf;
-    for(int x: nums){
-        sqv = min(x, sqv);
-    }
-
-    for(int i = 0; i < n; i++){
-        dn.push_back(sqv);
-        st[sqv]++;
-        sqv += c;
-    }
- 
-    for(int x : dn){
-        for(int i = 0 ; i < n - 1; i++){
-            x += d;
-            st[x]++;
-        }
-    }
-  
-    for(auto x : st){
-        if(st1.find(x.first) == st1.end()){
-            cout<<"NO"<<enl;
-            return 0;
-        }else{
-            if(st1[x.first] != x.second){
-                cout<<"NO"<<enl;
-                return 0;
-            }
-        }
-    }
-
-    cout<<"YES"<<enl;
     return 0;
+
 }
 
 signed main() {

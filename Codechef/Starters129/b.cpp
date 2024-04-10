@@ -55,52 +55,25 @@ template <typename A, typename B> A amin (A &a, B b){ if (b < a) a = b ; return 
 
 const long long mod = 1e9+7;
 const long long inf = 1e18;
-
-
-
 int solve() {
-    int n , c, d;
-    cin>>n>>c>>d;
-    vector<int> nums(n*n);
-    cin>>nums;
-    map<int , int> st;
-    map<int , int> st1;
-
-    for(int x : nums){
-        st1[x]++;
-    }
-    vector<int> dn;
-    int sqv = inf;
-    for(int x: nums){
-        sqv = min(x, sqv);
-    }
-
+    int n;
+    cin>>n;
+    vector<int> nums(n);
+    
     for(int i = 0; i < n; i++){
-        dn.push_back(sqv);
-        st[sqv]++;
-        sqv += c;
+        cin>>nums[i];
     }
- 
-    for(int x : dn){
-        for(int i = 0 ; i < n - 1; i++){
-            x += d;
-            st[x]++;
+    int count = 0;
+    for(int x : nums){
+        if(x == 2){
+            count++;
         }
     }
-  
-    for(auto x : st){
-        if(st1.find(x.first) == st1.end()){
-            cout<<"NO"<<enl;
-            return 0;
-        }else{
-            if(st1[x.first] != x.second){
-                cout<<"NO"<<enl;
-                return 0;
-            }
-        }
+    if(count % 8 == 0){
+        cout<<"YES"<<enl;
+    }else{
+        cout<<"NO"<<enl;
     }
-
-    cout<<"YES"<<enl;
     return 0;
 }
 
