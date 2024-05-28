@@ -56,45 +56,25 @@ template <typename A, typename B> A amin (A &a, B b){ if (b < a) a = b ; return 
 const long long mod = 1e9+7;
 const long long inf = 1e18;
 
-int solve()
-{
-    int n , k , q;
-    cin>>n>>k>>q;
-    vector<int> a(k), b(k);
-    for(int i = 0; i < k; i++){
-        cin >> a[i];
+int solve() {
+    int x , y;
+    cin>>x>>y;
+    int screen = 0;
+    int ys = y/2;
+    x -= ys*7;
+    if(y % 2 == 1){
+        ys++;
+        x -= 11;
     }
-    for(int i = 0; i < k; i++){
-        cin >> b[i];
-    }
-    for(int i = 1; i < k; i++){
-        b[i] -= b[i - 1];
-        a[i] -= a[i - 1];
-    }
-    map<int, double> tm;
-    int start = 0;
-    for(int i = 0; i < k; i++){
-        double x = static_cast<double>(b[i]) / a[i];
-        tm[start + a[i]] =  a[i];
-        start += a[i];
-    }
-    double sum = 0; 
-    vector<double> time(n, 0);
-    int st = 1;
-    for(auto it : tm){
-        for(int i = st; i <= it.first; i++){
-            time[i] = it.second + sum;
-            sum += it.second;
-        }
-        st = it.first + 1;
+    int ans = ys;
+    if(x > 0){
+        int t = 0;
+        t = x/15;
+        ans += t;
+        if(x%15 > 0)ans++;
     }
 
-    while(q--){
-        int x;
-        cin >> x;
-        cout << static_cast<int>(time[x]) << " ";
-    }
-    cout<<enl;
+    cout<<ans<<enl;
 }
 
 signed main() {
