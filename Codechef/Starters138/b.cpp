@@ -17,34 +17,32 @@
 #include <unordered_map>
 #include <unordered_set>
 
-
 using namespace std;
 #define  int          long long
 #define  sz(s)        (int)s.size()
 #define  all(v)       (v).begin(),(v).end()
-#define  enl  	  '\n'
+#define  enl         '\n'
 
 vector<int> count_divisors_to_n(int n){
-    vector<int> res(n + 1);
-    for(int i = 1 ; i <= n ; i++){
-        for(int j = i ; j <= n; j += i){
-            res[j]++;
-        }
-    }
-    return res;
+   vector<int> res(n + 1);
+   for(int i = 1 ; i <= n ; i++){
+       for(int j = i ; j <= n; j += i){
+           res[j]++;
+       }
+   }
+   return res;
 }
 int count_divisors(int n){
-    int count = 0;
-    for(int i = 1 ; i * i <= n;i++){
-        if(n % i == 0){
-            count++;
-            if(n/i != i){
-                count++;
-            }
-        }
-
-    }
-    return count;
+   int count = 0;
+   for(int i = 1 ; i * i <= n;i++){
+       if(n % i == 0){
+           count++;
+           if(n/i != i){
+               count++;
+           }
+       }
+   }
+   return count;
 }
 template <typename A, typename B> ostream& operator<< (ostream &cout, pair<A, B> const &p) { return cout << '(' << p.first << ',' << p.second << ')'; }
 template <typename A, typename B> istream& operator>> (istream& cin, pair<A, B> &p) {cin >> p.first; return cin >> p.second;}
@@ -57,15 +55,29 @@ const long long mod = 1e9+7;
 const long long inf = 1e18;
 
 int solve() {
-    
+    int x , y;
+    cin>>x>>y;
+    int td = x * 10; 
+    int res = 0;
+    while (true) {
+        int ntd = td + 100 * res; 
+        int nas = ntd / (10 + res); 
+        if (nas >= y) {
+            cout<<res<<enl; 
+            return 0;
+        }
+        res++;
+    }
+   return 0;
 }
 
 signed main() {
-    ios_base::sync_with_stdio(0);
-    cin.tie(NULL);
-    int t;
-    cin >> t;
-    while (t--) {
-        solve();
-    }
+   ios_base::sync_with_stdio(0);
+   cin.tie(NULL);
+   int t;
+   cin >> t;
+   while (t--) {
+       solve();
+   }
+   return 0;
 }
